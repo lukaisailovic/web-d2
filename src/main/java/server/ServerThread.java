@@ -113,6 +113,7 @@ public class ServerThread extends Thread {
                     table.removePlayerFromTable(player);
                     break;
                 }
+                table.getBarrier().await();
             }
             // 3
             response = new Response();

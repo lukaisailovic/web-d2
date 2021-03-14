@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,6 +14,7 @@ public class Table {
     private final AtomicInteger drawPlayerIndex = new AtomicInteger(0);
     private final CyclicBarrier barrier = new CyclicBarrier(6);
     private int drawnStickIndex = -1;
+    private Player winner;
     private int shortStickIndex;
     private final Random random = new Random();
     private final AtomicInteger playedRounds = new AtomicInteger(0);
@@ -20,6 +22,7 @@ public class Table {
     private final int maxRounds;
 
     public Table(int maxRounds) {
+        this.winner = new Player(UUID.randomUUID());
         this.maxRounds = maxRounds;
         this.shortStickIndex = random.nextInt(PLAYERS_IN_GAME);
         this.players = new Player[PLAYERS_IN_GAME];
@@ -47,6 +50,7 @@ public class Table {
     public synchronized boolean drawStick(int stickIndex){
         System.out.println("Igrac "+getDrawPlayer().getId()+" vuce stapic " + stickIndex);
         this.drawnStickIndex = stickIndex;
+        this.drawPlayerIndex.set(0);
         this.playRoundStep();
         return stickIndex == this.shortStickIndex;
     }
@@ -87,15 +91,19 @@ public class Table {
             // reset steps
             this.playedRoundSteps.set(0);
             if (drawIndex >5 ){
-                this.gameRunning = false;
                 System.out.println("Niko od igraca nije izvukao kraci stapic. Igra se zavrsava");
+                this.gameRunning = false;
             }
             if (currentRounds >= maxRounds){
-                this.gameRunning = false;
                 System.out.println("Dostignut je maksimalan broj rundi. Igra se zavrsava");
+                this.gameRunning = false;
+            }
+            if (!this.gameRunning){
+                System.out.println("Pobednik je igrac "+winner.getId()+" sa "+ winner.getPoints() +" poena");
             }
         }
     }
+
     public boolean getResult(Player player){
         if (!gameRunning){
             return false;
@@ -109,6 +117,10 @@ public class Table {
                 if (result){
                     players[i].addPoint();
                     System.out.println("Igrac "+player.getId()+" je dobio poen");
+                    if (players[i].getPoints() > winner.getPoints()){
+                        this.winner = players[i];
+                        System.out.println("Igrac "+player.getId()+" trenutno vodi po broju poena");
+                    }
                 }
                 break;
             }
