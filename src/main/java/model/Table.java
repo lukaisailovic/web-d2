@@ -26,6 +26,9 @@ public class Table {
     }
 
     public synchronized boolean giveSeat(Player player) {
+        if (!gameRunning){
+            return false;
+        }
         for (int i = 0; i < PLAYERS_IN_GAME ; i++) {
             if(players[i] == null) {
                 players[i] = player;
@@ -94,6 +97,9 @@ public class Table {
         }
     }
     public boolean getResult(Player player){
+        if (!gameRunning){
+            return false;
+        }
         boolean result = false;
         for (int i = 0; i < PLAYERS_IN_GAME; i++){
             if (players[i].getId().equals(player.getId())){
