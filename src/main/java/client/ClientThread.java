@@ -8,6 +8,7 @@ import model.Result;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Random;
 import java.util.UUID;
 
 public class ClientThread implements Runnable {
@@ -17,6 +18,7 @@ public class ClientThread implements Runnable {
     private final Socket socket;
     private final BufferedReader in;
     private final PrintWriter out;
+    private final Random random = new Random();
 
     private final Gson gson;
 
@@ -48,17 +50,28 @@ public class ClientThread implements Runnable {
                 System.out.println("Igrac " + id.toString() + " nije uspeo da se prikljuci igri.");
                 return;
             }
+            // 3
+            while((response = receiveResponse()).getResult() != Result.GAME_END){
+                request = new Request();
+                if (response.getResult().equals(Result.DRAW_STICK)){
+                    request.setAction(Action.DRAW_STICK);
+                    request.setData(String.valueOf(random.nextInt(6)));
+                } else {
+                    request.setAction(Action.GUESS);
+                    request.setData(String.valueOf(random.nextBoolean()));
+                }
+                // 4
+                sendRequest(request);
+
+                // 5
+                response = receiveResponse();
+                System.out.println(response.getData());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                in.close();
-                out.close();
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            closeConnection();
         }
 
     }
@@ -76,4 +89,15 @@ public class ClientThread implements Runnable {
 
         return null;
     }
+
+    private void closeConnection(){
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

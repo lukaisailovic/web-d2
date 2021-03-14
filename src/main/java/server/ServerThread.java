@@ -52,6 +52,11 @@ public class ServerThread extends Thread {
                 }
             }
 
+            while(table.isGameRunning()){
+
+            }
+
+
 
 
         } catch (IOException e) {

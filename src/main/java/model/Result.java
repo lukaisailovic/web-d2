@@ -2,5 +2,8 @@ package model;
 
 public enum Result {
     SUCCESS,
-    FAILURE
+    FAILURE,
+    GAME_END,
+    DRAW_STICK,
+    GUESS,
 }

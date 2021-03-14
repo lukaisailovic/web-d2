@@ -6,6 +6,7 @@ public class Request {
 
     private UUID id;
     private Action action;
+    private String data;
 
     public Request() {
 
@@ -25,5 +26,13 @@ public class Request {
 
     public void setAction(Action action) {
         this.action = action;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }
