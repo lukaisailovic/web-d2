@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Random;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,8 +11,11 @@ public class Table {
     private final AtomicInteger playersInRound = new AtomicInteger(0);
     private final AtomicInteger drawPlayerIndex = new AtomicInteger(0);
     private final CyclicBarrier barrier = new CyclicBarrier(6);
+    private int shortStickIndex;
+    private final Random random = new Random();
 
     public Table() {
+        this.shortStickIndex = random.nextInt(PLAYERS_IN_GAME);
         this.players = new Player[PLAYERS_IN_GAME];
     }
 
@@ -28,6 +32,11 @@ public class Table {
         }
 
         return false;
+    }
+
+    public synchronized boolean drawStick(int stickIndex){
+        System.out.println("Igrac "+getDrawPlayer().getId()+" vuce stapic " + stickIndex);
+        return stickIndex == this.shortStickIndex;
     }
 
     public boolean isGameRunning() {

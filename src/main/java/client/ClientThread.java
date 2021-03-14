@@ -67,7 +67,7 @@ public class ClientThread implements Runnable {
 
                 // 5
                 response = receiveResponse();
-                System.out.println(response.getData() == null);
+                System.out.println(response);
 
                 // 3
                 response = receiveResponse();

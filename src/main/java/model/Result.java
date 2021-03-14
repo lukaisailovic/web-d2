@@ -5,6 +5,8 @@ public enum Result {
     FAILURE,
     GAME_END,
     DRAW_STICK,
+    DRAW_SHORT,
+    DRAW_LONG,
     GUESS,
     GUESS_CORRECT,
     GUESS_INCORRECT

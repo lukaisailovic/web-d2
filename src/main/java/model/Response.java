@@ -23,4 +23,12 @@ public class Response {
     public void setData(String data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "result=" + result +
+                ", data='" + data + '\'' +
+                '}';
+    }
 }
