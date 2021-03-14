@@ -75,7 +75,6 @@ public class ServerThread extends Thread {
                 // 4 player guess
                 request = receiveRequest();
 
-
                 response = new Response();
                 if (request.getAction().equals(Action.GUESS)){
                    table.guess(player,Boolean.parseBoolean(request.getData()));
@@ -91,14 +90,22 @@ public class ServerThread extends Thread {
                         response.setData("Ivucen je dugacak stapic");
                     }
 
-                } else {
-                    response.setResult(Result.GUESS_CORRECT);
-                    response.setData("Tacno");
                 }
                 // TODO after draw is complete, wait for all players and register points
+                table.getBarrier().await();
+                // if you are guessing, ask for results
+                if (request.getAction().equals(Action.GUESS)){
+                    if (table.getResult(player)){
+                        response.setResult(Result.GUESS_CORRECT);
+                        response.setData("Igrac je dobio poen");
+                    } else {
+                        response.setResult(Result.GUESS_INCORRECT);
+                        response.setData("Igrac nije dobio poen");
+                    }
+                }
 
                 // 5
-                // TODO send player correct/incorrect/leave table
+                // TODO send player correct/incorrect/leave table/stay
 
 
                 sendResponse(response);

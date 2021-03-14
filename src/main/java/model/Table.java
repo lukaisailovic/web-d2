@@ -49,6 +49,17 @@ public class Table {
             }
         }
     }
+    public boolean getResult(Player player){
+        boolean result = false;
+        for (int i = 0; i < PLAYERS_IN_GAME; i++){
+            if (players[i].getId().equals(player.getId())){
+                boolean guess = this.playerGuesses[i];
+                boolean shortDraw = this.drawnStickIndex == this.shortStickIndex;
+                result = guess == shortDraw;
+            }
+        }
+        return result;
+    }
 
     public boolean isGameRunning() {
         return gameRunning;
