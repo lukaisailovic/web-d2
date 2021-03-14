@@ -18,4 +18,8 @@ public class Player {
     public void addPoint() {
         points++;
     }
+
+    public UUID getId() {
+        return id;
+    }
 }

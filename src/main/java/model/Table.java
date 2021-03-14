@@ -1,5 +1,6 @@
 package model;
 
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Table {
@@ -7,6 +8,8 @@ public class Table {
     private final Player[] players;
     private boolean gameRunning = false;
     private final AtomicInteger playersInRound = new AtomicInteger(0);
+    private final AtomicInteger drawPlayerIndex = new AtomicInteger(0);
+    private final CyclicBarrier barrier = new CyclicBarrier(6);
 
     public Table() {
         this.players = new Player[PLAYERS_IN_GAME];
@@ -33,5 +36,12 @@ public class Table {
 
     public AtomicInteger getPlayersInRound() {
         return playersInRound;
+    }
+
+    public CyclicBarrier getBarrier() {
+        return barrier;
+    }
+    public Player getDrawPlayer(){
+        return this.players[this.drawPlayerIndex.get()];
     }
 }

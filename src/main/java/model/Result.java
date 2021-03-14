@@ -6,4 +6,6 @@ public enum Result {
     GAME_END,
     DRAW_STICK,
     GUESS,
+    GUESS_CORRECT,
+    GUESS_INCORRECT
 }

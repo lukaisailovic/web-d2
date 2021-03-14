@@ -5,6 +5,7 @@ import model.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.BrokenBarrierException;
 
 public class ServerThread extends Thread {
 
@@ -54,12 +55,44 @@ public class ServerThread extends Thread {
 
             while(table.isGameRunning()){
 
+                table.getBarrier().await();
+
+                Player drawPlayer = table.getDrawPlayer();
+                response = new Response();
+                if (drawPlayer.getId().equals(player.getId())){
+                    response.setResult(Result.DRAW_STICK);
+                } else {
+                    response.setResult(Result.GUESS);
+                }
+                // 3
+                sendResponse(response);
+
+                // 4 player guess
+                request = receiveRequest();
+
+                if (request.getAction().equals(Action.GUESS)){
+                    boolean guess = Boolean.parseBoolean(request.getData());
+                    System.out.println("Igrac "+player.getId()+" pogadja " + guess);
+                    // TODO register guess with table
+                }
+                // wait for all players to guess before draw
+                table.getBarrier().await();
+                if (request.getAction().equals(Action.DRAW_STICK)){
+                    // TODO register draw with table
+                }
+                // TODO after draw is complete, wait for all players and register points
+
+                // 5
+                // TODO send player correct/incorrect/leave table
+                response = new Response();
+                response.setResult(Result.GUESS_CORRECT);
+                response.setData("Tacno");
             }
 
 
 
 
-        } catch (IOException e) {
+        } catch (IOException | BrokenBarrierException | InterruptedException e) {
             e.printStackTrace();
         } finally {
             try {
