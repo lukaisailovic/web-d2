@@ -103,7 +103,7 @@ public class ServerThread extends Thread {
                         response.setData("Igrac nije dobio poen");
                     }
                 }
-
+                table.getBarrier().await();
                 // 5
                 // TODO send player correct/incorrect/leave table/stay
 

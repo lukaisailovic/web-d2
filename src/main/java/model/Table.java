@@ -56,6 +56,11 @@ public class Table {
                 boolean guess = this.playerGuesses[i];
                 boolean shortDraw = this.drawnStickIndex == this.shortStickIndex;
                 result = guess == shortDraw;
+                if (result){
+                    players[i].addPoint();
+                    System.out.println("Igrac "+player.getId()+" je dobio poen");
+                }
+                break;
             }
         }
         return result;
