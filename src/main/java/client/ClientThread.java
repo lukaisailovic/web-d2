@@ -53,6 +53,7 @@ public class ClientThread implements Runnable {
             // 3
             while((response = receiveResponse()).getResult() != Result.GAME_END){
                 request = new Request();
+                request.setId(id);
                 if (response.getResult().equals(Result.DRAW_STICK)){
                     request.setAction(Action.DRAW_STICK);
                     request.setData(String.valueOf(random.nextInt(6)));
