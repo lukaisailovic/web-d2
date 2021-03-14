@@ -44,11 +44,7 @@ public class Table {
         System.out.println("Igrac "+getDrawPlayer().getId()+" vuce stapic " + stickIndex);
         this.drawnStickIndex = stickIndex;
         this.playRoundStep();
-        boolean drawnShortStick = stickIndex == this.shortStickIndex;
-        if (drawnShortStick){
-            this.removePlayerFromTable(getDrawPlayer());
-        }
-        return drawnShortStick;
+        return stickIndex == this.shortStickIndex;
     }
     public void guess(Player player, boolean guess){
         for (int i = 0; i < PLAYERS_IN_GAME; i++){
@@ -59,7 +55,7 @@ public class Table {
         }
         this.playRoundStep();
     }
-    private void removePlayerFromTable(Player player){
+    public void removePlayerFromTable(Player player){
         for (int i = 0; i < PLAYERS_IN_GAME; i++){
             if (players[i].getId().equals(player.getId())){
                 players[i] = null;

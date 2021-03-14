@@ -81,13 +81,14 @@ public class ServerThread extends Thread {
                 }
                 // wait for all players to guess before draw
                 table.getBarrier().await();
+                boolean shouldLeaveTable = false;
                 if (request.getAction().equals(Action.DRAW_STICK)){
                     if (table.drawStick(Integer.parseInt(request.getData()))){
                         response.setResult(Result.DRAW_SHORT);
                         response.setData("Ivucen je kratak stapic");
                         //5
                         sendResponse(response);
-                        return;
+                        shouldLeaveTable = true;
                     } else {
                         response.setResult(Result.DRAW_LONG);
                         response.setData("Ivucen je dugacak stapic");
@@ -108,6 +109,10 @@ public class ServerThread extends Thread {
                 table.getBarrier().await();
                 // 5
                 sendResponse(response);
+                if (shouldLeaveTable){
+                    table.removePlayerFromTable(player);
+                    break;
+                }
             }
             // 3
             response = new Response();
