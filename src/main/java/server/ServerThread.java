@@ -79,9 +79,7 @@ public class ServerThread extends Thread {
                 Boolean guess = null;
                 response = new Response();
                 if (request.getAction().equals(Action.GUESS)){
-                    guess = Boolean.parseBoolean(request.getData());
-                    System.out.println("Igrac "+player.getId()+" pogadja " + guess);
-                    // TODO register guess with table
+                   table.guess(player,Boolean.parseBoolean(request.getData()));
                 }
                 // wait for all players to guess before draw
                 table.getBarrier().await();
