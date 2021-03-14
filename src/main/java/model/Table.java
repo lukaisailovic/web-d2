@@ -17,9 +17,10 @@ public class Table {
     private final Random random = new Random();
     private final AtomicInteger playedRounds = new AtomicInteger(0);
     private final AtomicInteger playedRoundSteps = new AtomicInteger(0);
-    private final int maxRounds = 4;
+    private final int maxRounds;
 
-    public Table() {
+    public Table(int maxRounds) {
+        this.maxRounds = maxRounds;
         this.shortStickIndex = random.nextInt(PLAYERS_IN_GAME);
         this.players = new Player[PLAYERS_IN_GAME];
     }
@@ -82,8 +83,13 @@ public class Table {
             System.out.println("Odigrana je runda "+currentRounds+"/"+maxRounds);
             // reset steps
             this.playedRoundSteps.set(0);
-            if (drawIndex >5 || currentRounds >= maxRounds){
+            if (drawIndex >5 ){
                 this.gameRunning = false;
+                System.out.println("Niko od igraca nije izvukao kraci stapic. Igra se zavrsava");
+            }
+            if (currentRounds >= maxRounds){
+                this.gameRunning = false;
+                System.out.println("Dostignut je maksimalan broj rundi. Igra se zavrsava");
             }
         }
     }

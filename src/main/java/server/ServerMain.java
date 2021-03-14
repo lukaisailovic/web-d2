@@ -14,7 +14,8 @@ public class ServerMain {
 
     public static void main(String[] args) {
 
-        Table table = new Table();
+        int maxRounds = 10;
+        Table table = new Table(maxRounds);
 
         try {
             ServerSocket ss = new ServerSocket(PORT);
