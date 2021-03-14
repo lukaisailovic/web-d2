@@ -32,21 +32,27 @@ public class ServerThread extends Thread {
     public void run() {
 
         try {
+            // 1
             Request request = receiveRequest();
 
             Player player = new Player(request.getId());
 
             Response response = new Response();
-            response.setResult(Result.FAILURE);
 
             if(request.getAction() == Action.REQUEST_CHAIR) {
-                if(table.giveSeat(player)){
+                if(!table.giveSeat(player)){
+                    response.setResult(Result.FAILURE);
+                    // 2
+                    sendResponse(response);
+                    return;
+                } else {
                     response.setResult(Result.SUCCESS);
+                    // 2
+                    sendResponse(response);
                 }
-                sendResponse(response);
             }
 
-            // TODO
+
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -10,15 +10,15 @@ import java.io.*;
 import java.net.Socket;
 import java.util.UUID;
 
-public class ClientThread implements Runnable{
+public class ClientThread implements Runnable {
 
     private static final int PORT = 9999;
 
-    private Socket socket;
-    private BufferedReader in;
-    private PrintWriter out;
+    private final Socket socket;
+    private final BufferedReader in;
+    private final PrintWriter out;
 
-    private Gson gson;
+    private final Gson gson;
 
     public ClientThread() throws IOException {
         socket = new Socket("localhost", PORT);
@@ -28,21 +28,37 @@ public class ClientThread implements Runnable{
     }
 
     public void run() {
-        Request request = new Request();
-        UUID id = UUID.randomUUID();
+        try {
+            Request request = new Request();
+            UUID id = UUID.randomUUID();
 
-        System.out.println("Igrac " + id.toString() + " pokusava da pristupi igri.");
+            System.out.println("Igrac " + id.toString() + " pokusava da pristupi igri.");
 
-        request.setId(id);
-        request.setAction(Action.REQUEST_CHAIR);
-        sendRequest(request);
+            request.setId(id);
+            request.setAction(Action.REQUEST_CHAIR);
+            // 1
+            sendRequest(request);
 
-        Response response = receiveResponse();
+            // 2
+            Response response = receiveResponse();
 
-        if(response.getResult() == Result.SUCCESS) {
-            System.out.println("Igrad " + id.toString() + " je uspeo da se prikljuci igri.");
-        } else {
-            System.out.println("Igrad " + id.toString() + " nije uspeo da se prikljuci igri.");
+            if (response.getResult() == Result.SUCCESS) {
+                System.out.println("Igrac " + id.toString() + " je uspeo da se prikljuci igri.");
+            } else {
+                System.out.println("Igrac " + id.toString() + " nije uspeo da se prikljuci igri.");
+                return;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                in.close();
+                out.close();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }

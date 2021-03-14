@@ -1,17 +1,25 @@
 package model;
 
-public class Table {
+import java.util.concurrent.atomic.AtomicInteger;
 
-    private Player[] players;
+public class Table {
+    private static final int PLAYERS_IN_GAME = 6;
+    private final Player[] players;
+    private boolean gameRunning = false;
+    private final AtomicInteger playersInRound = new AtomicInteger(0);
 
     public Table() {
-        this.players = new Player[6];
+        this.players = new Player[PLAYERS_IN_GAME];
     }
 
     public synchronized boolean giveSeat(Player player) {
-        for (int i = 0; i < 6 ; i++) {
+        for (int i = 0; i < PLAYERS_IN_GAME ; i++) {
             if(players[i] == null) {
                 players[i] = player;
+                if (playersInRound.incrementAndGet() == PLAYERS_IN_GAME){
+                    this.gameRunning = true;
+                    System.out.println("Game started with "+playersInRound.get()+" players");
+                }
                 return true;
             }
         }
@@ -19,5 +27,11 @@ public class Table {
         return false;
     }
 
+    public boolean isGameRunning() {
+        return gameRunning;
+    }
 
+    public AtomicInteger getPlayersInRound() {
+        return playersInRound;
+    }
 }
