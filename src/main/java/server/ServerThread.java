@@ -116,13 +116,8 @@ public class ServerThread extends Thread {
         } catch (IOException | BrokenBarrierException | InterruptedException e) {
             e.printStackTrace();
         } finally {
-            try {
-                in.close();
-                out.close();
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            closeConnection();
+
         }
     }
 
@@ -132,5 +127,15 @@ public class ServerThread extends Thread {
 
     private void sendResponse(Response response) {
         out.println(gson.toJson(response));
+    }
+
+    private void closeConnection(){
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
