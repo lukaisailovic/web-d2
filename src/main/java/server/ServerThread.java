@@ -76,7 +76,6 @@ public class ServerThread extends Thread {
                 request = receiveRequest();
 
 
-                Boolean guess = null;
                 response = new Response();
                 if (request.getAction().equals(Action.GUESS)){
                    table.guess(player,Boolean.parseBoolean(request.getData()));
