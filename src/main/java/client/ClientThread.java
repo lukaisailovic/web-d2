@@ -51,7 +51,8 @@ public class ClientThread implements Runnable {
                 return;
             }
             // 3
-            while((response = receiveResponse()).getResult() != Result.GAME_END){
+            response = receiveResponse();
+            while(response.getResult() != Result.GAME_END){
                 request = new Request();
                 request.setId(id);
                 if (response.getResult().equals(Result.DRAW_STICK)){
@@ -66,7 +67,10 @@ public class ClientThread implements Runnable {
 
                 // 5
                 response = receiveResponse();
-                System.out.println(response.getData());
+                System.out.println(response.getData() == null);
+
+                // 3
+                response = receiveResponse();
             }
 
         } catch (Exception e) {

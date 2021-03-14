@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Table {
     private static final int PLAYERS_IN_GAME = 6;
     private final Player[] players;
-    private boolean gameRunning = false;
+    private boolean gameRunning = true;
     private final AtomicInteger playersInRound = new AtomicInteger(0);
     private final AtomicInteger drawPlayerIndex = new AtomicInteger(0);
     private final CyclicBarrier barrier = new CyclicBarrier(6);

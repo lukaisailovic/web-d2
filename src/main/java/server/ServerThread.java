@@ -53,8 +53,12 @@ public class ServerThread extends Thread {
                 }
             }
 
+             // wait until game starts
+            table.getBarrier().await();
+
             while(table.isGameRunning()){
 
+                // if player leaves, wait until there is new player
                 table.getBarrier().await();
 
                 Player drawPlayer = table.getDrawPlayer();
@@ -66,6 +70,7 @@ public class ServerThread extends Thread {
                 }
                 // 3
                 sendResponse(response);
+                System.out.println("Sending response from server "+ response.getResult());
 
                 // 4 player guess
                 request = receiveRequest();
@@ -79,6 +84,7 @@ public class ServerThread extends Thread {
                 table.getBarrier().await();
                 if (request.getAction().equals(Action.DRAW_STICK)){
                     // TODO register draw with table
+                    System.out.println("Igrac "+player.getId()+" vuce stapic " + request.getData());
                 }
                 // TODO after draw is complete, wait for all players and register points
 
@@ -87,6 +93,7 @@ public class ServerThread extends Thread {
                 response = new Response();
                 response.setResult(Result.GUESS_CORRECT);
                 response.setData("Tacno");
+                sendResponse(response);
             }
 
 
