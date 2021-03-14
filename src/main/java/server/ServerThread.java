@@ -91,7 +91,6 @@ public class ServerThread extends Thread {
                     }
 
                 }
-                // TODO after draw is complete, wait for all players and register points
                 table.getBarrier().await();
                 // if you are guessing, ask for results
                 if (request.getAction().equals(Action.GUESS)){
