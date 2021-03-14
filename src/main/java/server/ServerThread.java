@@ -70,7 +70,7 @@ public class ServerThread extends Thread {
                 }
                 // 3
                 sendResponse(response);
-                System.out.println("Sending response from server "+ response.getResult());
+
 
                 // 4 player guess
                 request = receiveRequest();
@@ -85,6 +85,9 @@ public class ServerThread extends Thread {
                     if (table.drawStick(Integer.parseInt(request.getData()))){
                         response.setResult(Result.DRAW_SHORT);
                         response.setData("Ivucen je kratak stapic");
+                        //5
+                        sendResponse(response);
+                        return;
                     } else {
                         response.setResult(Result.DRAW_LONG);
                         response.setData("Ivucen je dugacak stapic");
@@ -104,20 +107,17 @@ public class ServerThread extends Thread {
                 }
                 table.getBarrier().await();
                 // 5
-                // TODO send player correct/incorrect/leave table/stay
-
-
                 sendResponse(response);
             }
-
-
-
+            // 3
+            response = new Response();
+            response.setResult(Result.GAME_END);
+            sendResponse(response);
 
         } catch (IOException | BrokenBarrierException | InterruptedException e) {
             e.printStackTrace();
         } finally {
             closeConnection();
-
         }
     }
 
