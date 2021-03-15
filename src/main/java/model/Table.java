@@ -50,7 +50,6 @@ public class Table {
     public synchronized boolean drawStick(int stickIndex){
         System.out.println("Igrac "+getDrawPlayer().getId()+" vuce stapic " + stickIndex);
         this.drawnStickIndex = stickIndex;
-        this.drawPlayerIndex.set(0);
         this.playRoundStep();
         return stickIndex == this.shortStickIndex;
     }
