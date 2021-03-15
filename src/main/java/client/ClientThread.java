@@ -56,10 +56,12 @@ public class ClientThread implements Runnable {
                 request = new Request();
                 request.setId(id);
                 if (response.getResult().equals(Result.DRAW_STICK)){
+                    System.out.println("Igrac " + id.toString() + " treba da vuce stapic");
                     request.setAction(Action.DRAW_STICK);
                     request.setData(String.valueOf(random.nextInt(6)));
                 } else {
                     request.setAction(Action.GUESS);
+                    System.out.println("Igrac " + id.toString() + " treba da pogadja");
                     request.setData(String.valueOf(random.nextBoolean()));
                 }
                 // 4

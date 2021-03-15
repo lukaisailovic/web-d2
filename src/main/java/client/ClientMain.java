@@ -13,7 +13,7 @@ public class ClientMain {
 
     public static void main(String[] args) throws IOException {
 
-        int playerCount = 500;
+        int playerCount = 200;
 
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
 
