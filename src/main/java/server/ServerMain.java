@@ -14,7 +14,7 @@ public class ServerMain {
 
     public static void main(String[] args) {
 
-        int maxRounds = 20;
+        int maxRounds = 9;
         Table table = new Table(maxRounds);
 
         try {

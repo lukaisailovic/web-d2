@@ -36,10 +36,6 @@ public class Table {
             if(players[i] == null) {
                 players[i] = player;
                 System.out.println("Igrac "+player.getId()+" ulazi na sto sto");
-                if (playersInRound.incrementAndGet() == PLAYERS_IN_GAME){
-                    this.gameRunning = true;
-                    System.out.println("Igra je pocela sa "+playersInRound.get()+" igraca");
-                }
                 return true;
             }
         }
